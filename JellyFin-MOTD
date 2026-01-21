@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Colors
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+RED='\033[0;31m'
+NC='\033[0m'
+BOLD='\033[1m'
+
+echo -e "${BOLD}SYSTEM ACCESS INFO${NC}"
+echo -e "---------------------------------------------------"
+
+# Get only IPv4 addresses, excluding loopback and common Docker ranges
+INTERNAL_IPS=$(hostname -I | tr ' ' '\n' | grep -v ':' | grep -v '^172\.' | grep -v '^127\.')
+
+for IP in $INTERNAL_IPS; do
+    echo -e "${CYAN}IPv4 Address: ${BOLD}${IP}${NC}"
+    echo -e "  > Cockpit: https://${IP}:9090"
+    echo -e "  > Webmin:  https://${IP}:10000"
+    echo -e "  > Jellyfin:  http://${IP}:8096"
+    echo ""
+done
+
+echo -e "${BOLD}SERVICE STATUS${NC}"
+echo -e "---------------------------------------------------"
+
+# Function to check service status
+check_svc() {
+    if systemctl is-active --quiet $1 2>/dev/null; then
+        printf "%-12s: [ ${GREEN}RUNNING${NC} ]\n" "$2"
+    else
+        printf "%-12s: [ ${RED}STOPPED${NC} ]\n" "$2"
+    fi
+}
+
+check_svc "cockpit"  "Cockpit"
+check_svc "webmin"   "Webmin"
+check_svc "jellyfin" "Jellyfin"
