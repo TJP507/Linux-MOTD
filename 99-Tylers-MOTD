@@ -15,8 +15,8 @@ INTERNAL_IPS=$(hostname -I | tr ' ' '\n' | grep -v ':' | grep -v '^172\.' | grep
 
 for IP in $INTERNAL_IPS; do
     echo -e "${CYAN}IPv4 Address: ${BOLD}${IP}${NC}"
-    echo -e "  > Cockpit: https://${IP}:9090"
-    echo -e "  > Webmin:  https://${IP}:10000"
+    echo -e "  > Cockpit:   https://${IP}:9090"
+    echo -e "  > Webmin:    https://${IP}:10000"
     echo -e "  > Jellyfin:  http://${IP}:8096"
     echo ""
 done
