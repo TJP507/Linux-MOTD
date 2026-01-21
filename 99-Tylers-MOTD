@@ -36,3 +36,5 @@ check_svc() {
 check_svc "cockpit"  "Cockpit"
 check_svc "webmin"   "Webmin"
 check_svc "jellyfin" "Jellyfin"
+
+echo ""
